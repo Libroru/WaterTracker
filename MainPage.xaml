@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WaterTrackerMAUI.MainPage"
+             Padding="15"
+             BackgroundColor="#2f3136">
+
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*"
+          HorizontalOptions="Center">
+
+        <Label Text="Water Tracker"
+               FontSize="48"
+               FontFamily="Black"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               Margin="0, 40, 0, 0"/>
+
+        <VerticalStackLayout VerticalOptions="Center"
+                             Spacing="25">
+            <Label Grid.Column="1"
+                   x:Name="Lena"
+                   Text="0ml"
+                   FontSize="48"
+                   FontFamily="Black"
+                   HorizontalOptions="Center"
+                   Margin="0, 0, 0, -35" />
+
+            <HorizontalStackLayout Spacing="5"
+                                   HorizontalOptions="Center">
+                <Button x:Name="RequirementDecrease"
+                        Clicked="RequirementDecrease_Clicked"
+                        Text="-"
+                        HorizontalOptions="Center" />
+                <Label x:Name="Maximilian"
+                       Grid.Column="2"
+                       Text="2.5L"
+                       FontSize="28"
+                       FontFamily="Regular"
+                       TextColor="DarkGray"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       MinimumWidthRequest="100"/>
+                <Button x:Name="RequirementIncrease"
+                        Clicked="RequirementIncrease_Clicked"
+                        Text="+"
+                        HorizontalOptions="Center" />
+            </HorizontalStackLayout>
+            
+            <HorizontalStackLayout Spacing="5"
+                                   HorizontalOptions="Center">
+                <Entry Placeholder="150ml"
+                       HorizontalTextAlignment="Center"
+                       MinimumWidthRequest="75"
+                       x:Name="Tobias"
+                       Focused="Tobias_Focused"
+                       Unfocused="Tobias_Unfocused"
+                       BackgroundColor="#1e1f22"/>
+
+                <Button x:Name="IncrementBtn1"
+                        Clicked="IncrementBtn1_Clicked"
+                        Text="+"
+                        HorizontalOptions="Center" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
