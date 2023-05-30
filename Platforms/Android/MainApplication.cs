@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 [Application]
 public class MainApplication : MauiApplication

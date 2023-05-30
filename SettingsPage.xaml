@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WaterTrackerMAUI.SettingsPage"
-             Title="SettingsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="WaterTrackerMaui2.SettingsPage"
+             Padding="15"
+             BackgroundColor="#2f3136">
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*"
+          HorizontalOptions="Center">
+        <VerticalStackLayout Spacing="25">
+            <Label Text="Settings"
+                   FontSize="48"
+                   FontFamily="Black"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
+                   Margin="0, 40, 0, 0" />
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Data save location" />
+                <HorizontalStackLayout Spacing="5">
+                    <Entry WidthRequest="150"
+                           x:Name="FolderPickerInput"
+                           TextChanged="FolderPickerInput_TextChanged" />
+                    <Button Text="..."
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            x:Name="FolderPickerButton"
+                            Clicked="FolderPickerButton_Clicked" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Reset all saved data" />
+                <Button Text="Reset"
+                        TextColor="IndianRed"
+                        WidthRequest="200"
+                        HeightRequest="40"
+                        x:Name="ResetButton"
+                        Clicked="ResetButton_Clicked" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Margin="0, 350, 0, 0">
+                <Label Text="Made by Libroru with ❤️"
+                       HorizontalOptions="Center" />
+                <Label Text="and a lot of tears..."
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

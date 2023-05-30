@@ -1,67 +1,122 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WaterTrackerMAUI.MainPage"
+             xmlns:progressBar="clr-namespace:Syncfusion.Maui.ProgressBar;assembly=Syncfusion.Maui.ProgressBar"
+             x:Class="WaterTrackerMaui2.MainPage"
              Padding="15"
              BackgroundColor="#2f3136">
-
     <Grid ColumnDefinitions="*"
           RowDefinitions="*"
           HorizontalOptions="Center">
-
-        <Label Text="Water Tracker"
-               FontSize="48"
-               FontFamily="Black"
-               HorizontalOptions="Center"
-               VerticalOptions="Start"
-               Margin="0, 40, 0, 0"/>
-
-        <VerticalStackLayout VerticalOptions="Center"
-                             Spacing="25">
-            <Label Grid.Column="1"
-                   x:Name="Lena"
-                   Text="0ml"
+        <HorizontalStackLayout VerticalOptions="Start"
+                               Spacing="5"
+                               Margin="0, 40, 0, 0">
+            <Label Text="Water Tracker"
                    FontSize="48"
                    FontFamily="Black"
                    HorizontalOptions="Center"
-                   Margin="0, 0, 0, -35" />
+                   VerticalOptions="Center" />
 
+        </HorizontalStackLayout>
+        <VerticalStackLayout VerticalOptions="Center"
+                             Spacing="5">
+            <VerticalStackLayout Spacing="50">
+                <progressBar:SfCircularProgressBar x:Name="Justus"
+                                                   Progress="65"
+                                                   WidthRequest="250"
+                                                   HeightRequest="250"
+                                                   TrackThickness="15"
+                                                   ProgressThickness="15"
+                                                   ProgressFill="#2c99c4"
+                                                   TrackFill="White"
+                                                   AnimationDuration="50"
+                                                   ProgressChanged="Justus_ProgressChanged">
+
+                    <progressBar:SfCircularProgressBar.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="0, 20"
+                                Radius="50"
+                                Opacity="0.2" />
+                    </progressBar:SfCircularProgressBar.Shadow>
+
+                    <Label Grid.Column="1"
+                           x:Name="Lena"
+                           Text="0ml"
+                           TextColor="#060607"
+                           FontSize="64"
+                           FontFamily="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+                    <Ellipse Fill="White"
+                             WidthRequest="200"
+                             HeightRequest="200"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             ZIndex="-1" />
+                </progressBar:SfCircularProgressBar>
+                <HorizontalStackLayout Spacing="5"
+                                       HorizontalOptions="Center">
+                    <Button x:Name="RequirementDecrease"
+                            Clicked="RequirementDecrease_Clicked"
+                            Text="-"
+                            HorizontalOptions="Center"
+                            HeightRequest="40"
+                            WidthRequest="40" />
+
+                    <Label x:Name="Maximilian"
+                           Grid.Column="2"
+                           Text="2.5L"
+                           FontSize="48"
+                           FontFamily="Regular"
+                           TextColor="DarkGray"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           WidthRequest="150" />
+
+                    <Button x:Name="RequirementIncrease"
+                            Clicked="RequirementIncrease_Clicked"
+                            Text="+"
+                            HorizontalOptions="Center"
+                            HeightRequest="40"
+                            WidthRequest="40" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
             <HorizontalStackLayout Spacing="5"
                                    HorizontalOptions="Center">
-                <Button x:Name="RequirementDecrease"
-                        Clicked="RequirementDecrease_Clicked"
+
+                <Button x:Name="DecrementBtn1"
+                        Clicked="DecrementBtn1_Clicked"
                         Text="-"
-                        HorizontalOptions="Center" />
-                <Label x:Name="Maximilian"
-                       Grid.Column="2"
-                       Text="2.5L"
-                       FontSize="28"
-                       FontFamily="Regular"
-                       TextColor="DarkGray"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       MinimumWidthRequest="100"/>
-                <Button x:Name="RequirementIncrease"
-                        Clicked="RequirementIncrease_Clicked"
-                        Text="+"
-                        HorizontalOptions="Center" />
-            </HorizontalStackLayout>
-            
-            <HorizontalStackLayout Spacing="5"
-                                   HorizontalOptions="Center">
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40" />
+
                 <Entry Placeholder="150ml"
                        HorizontalTextAlignment="Center"
-                       MinimumWidthRequest="75"
+                       WidthRequest="150"
                        x:Name="Tobias"
                        Focused="Tobias_Focused"
+                       TextChanged="Tobias_TextChanged"
                        Unfocused="Tobias_Unfocused"
-                       BackgroundColor="#1e1f22"/>
+                       Completed="Tobias_Completed"
+                       BackgroundColor="#1e1f22" />
 
                 <Button x:Name="IncrementBtn1"
                         Clicked="IncrementBtn1_Clicked"
                         Text="+"
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40" />
             </HorizontalStackLayout>
+            <Button Text="Settings"
+                    x:Name="Stefan"
+                    Clicked="Stefan_Clicked"
+                    HeightRequest="50"
+                    WidthRequest="245"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Margin="0, 7, 0, 0" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

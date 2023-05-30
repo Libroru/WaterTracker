@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 class Program : MauiApplication
 {

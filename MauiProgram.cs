@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 public static class MauiProgram
 {
@@ -9,14 +11,16 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
+            .UseMauiCommunityToolkit()
+            .ConfigureSyncfusionCore()
+            .ConfigureFonts(fonts =>
+            {
                 fonts.AddFont("Rambla-Bold.ttf", "Black");
                 fonts.AddFont("Rambla-Regular.ttf", "Regular");
             });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();

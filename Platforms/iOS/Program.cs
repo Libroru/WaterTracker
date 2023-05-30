@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 public class Program
 {

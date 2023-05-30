@@ -1,127 +1,70 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Syncfusion.Maui;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 public partial class MainPage : ContentPage
 {
-
-    enum DataMethod
-    {
-        Save,
-        Load
-    }
-
     enum TextFieldType
     {
         Requirement,
         Level
     }
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LoadAndSave(DataMethod.Load);
+        if (!Data.loaded) Data.Load();
+        ForceUIUpdate();
     }
 
     public void OnDestroying()
     {
-        LoadAndSave(DataMethod.Save);
+        Data.Save();
+        ForceUIUpdate();
     }
 
     private void ForceUIUpdate()
     {
         Lena.Text = FormatString(Data.waterLevel);
         Maximilian.Text = FormatString(Data.requirement, TextFieldType.Requirement);
-    }
-
-    private void LoadAndSave(DataMethod method)
-    {
-        var appDataPath = FileSystem.Current.AppDataDirectory;
-        var path = appDataPath + @"\user.txt";
-        
-        if (method == DataMethod.Load)
-        {
-            if (!File.Exists(path)) return;
-            var split = File.ReadAllText(path).Split("|");
-            Data.savedDate = DateTime.Parse(split[0]);
-            Trace.WriteLine(Data.savedDate);
-
-            if (CheckForDayDifference())
-            {
-                Trace.WriteLine("Date difference found!");
-                Data.requirement = float.Parse(split[2]);
-                File.Delete(path);
-            }
-            else
-            {
-                Trace.WriteLine("File Already Exists");
-                Data.waterLevel = float.Parse(split[1]);
-                Data.requirement = float.Parse(split[2]);
-                Trace.WriteLine(split[1]);
-                Trace.WriteLine(float.Parse(split[1]));                
-                Trace.WriteLine(Data.waterLevel);
-            }
-            ForceUIUpdate();
-        }
-        else
-        {
-            if (File.Exists(path)) File.Delete(path);
-
-            Trace.WriteLine("File Created");
-            Trace.WriteLine(Data.waterLevel);
-
-            File.Create(path).Dispose();
-            File.WriteAllText(path, DateTime.Today + "|" + Data.waterLevel + "|" + Data.requirement);
-        }
-        
-    }
-
-    private bool CheckForDayDifference()
-    {
-        //Using month here as well since the user might log in on the same day of a different month
-        //Let's just hope no one attempts to open the same app exactly one year late,
-        //because then we'd have to implement a reset button...
-        var today = DateTime.Today;
-
-        var sameDay = (today.Day == Data.savedDate.Day) ? true : false;
-        var sameMonth = (today.Month == Data.savedDate.Month) ? true : false;
-
-        Trace.WriteLine(sameDay);
-        Trace.WriteLine(sameMonth);
-
-        if ((!sameDay && !sameMonth) || (!sameDay && sameMonth)) return true;
-        return false;
+        Tobias.Text = Data.lastInput;
+        Justus.Progress = (Data.waterLevel / Data.requirement) * 100;
     }
 
     private string FormatString(float input, TextFieldType textFieldType = TextFieldType.Level)
     {
         var output = "";
 
+
+        /////////////Ignore this//////////////
         if (input >= 20000)
         {
             if (textFieldType == TextFieldType.Level)
             {
-                output = "lol ur dead";
+                output = "dead";
                 return output;
             }
             else
             {
-                output = "no stop";
+                output = "stop";
                 return output;
             }
         }
 
         if (input < 0)
         {
-            output = "ur dry";
+            output = "dried out";
             return output;
         }
+        //////////////////////////////////////
+        
 
         if (input < 1000)
         {
@@ -136,31 +79,43 @@ public partial class MainPage : ContentPage
 
     private void IncrementBtn1_Clicked(object sender, EventArgs e)
     {
-        var factor = 1;
-        var formatted_string = Tobias.Text;
-
-        if (Tobias.Text.StartsWith("-"))
+        if (Tobias.Text == null) return;
+        if (Regex.IsMatch(Tobias.Text, @"^\d+"))
         {
-            factor = -1;
-            formatted_string = formatted_string.Split("-")[1];
-        }
-
-        if (Regex.IsMatch(formatted_string, @"^\d+"))
-        {
-            if (formatted_string.ToLower().EndsWith("ml"))
+            if (Tobias.Text.ToLower().EndsWith("ml"))
             {
-                Data.waterLevel += float.Parse(formatted_string.Remove(formatted_string.Length - 2)) * factor;
+                Data.waterLevel += float.Parse(Tobias.Text.Remove(Tobias.Text.Length - 2));
             }
-            else if (formatted_string.EndsWith("L"))
+            else if (Tobias.Text.EndsWith("L"))
             {
-                Data.waterLevel += float.Parse(formatted_string.Remove(formatted_string.Length - 1)) * 1000 * factor;
+                Data.waterLevel += float.Parse(Tobias.Text.Remove(Tobias.Text.Length - 1)) * 1000;
             }
             else
             {
                 return;
             }
         }
-        Trace.WriteLine(Data.waterLevel);
+        ForceUIUpdate();
+    }
+
+    private void DecrementBtn1_Clicked(object sender, EventArgs e)
+    {
+
+        if (Regex.IsMatch(Tobias.Text, @"^\d+"))
+        {
+            if (Tobias.Text.ToLower().EndsWith("ml"))
+            {
+                Data.waterLevel -= float.Parse(Tobias.Text.Remove(Tobias.Text.Length - 2));
+            }
+            else if (Tobias.Text.EndsWith("L"))
+            {
+                Data.waterLevel -= float.Parse(Tobias.Text.Remove(Tobias.Text.Length - 1)) * 1000;
+            }
+            else
+            {
+                return;
+            }
+        }
         ForceUIUpdate();
     }
 
@@ -180,6 +135,40 @@ public partial class MainPage : ContentPage
     {
         Tobias.CursorPosition = 0;
         Tobias.SelectionLength = Tobias.Text != null ? Tobias.Text.Length : 0;
+    }
+
+    private void Tobias_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Data.lastInput = Tobias.Text;
+    }
+
+    private async void Stefan_Clicked(object sender, EventArgs e)
+    {
+        SettingsPage settingsPage = new SettingsPage();
+        await Navigation.PushAsync(settingsPage);
+    }
+
+    private void Tobias_Unfocused(object sender, FocusEventArgs e)
+    {
+        //Makes sure that the input is empty if being emptied
+        //it also adds L to the value if the number inside of
+        //it is only one decimal place long and vice verca
+        if (Tobias.Text == null || Tobias.Text == "") return;
+        if (Tobias.Text.EndsWith("ml") || Tobias.Text.EndsWith("L")) return;
+        if (Tobias.Text.Length == 1) Tobias.Text += "L";
+        else Tobias.Text += "ml";
+        Data.lastInput = Tobias.Text;
+    }
+
+    private void Justus_ProgressChanged(object sender, Syncfusion.Maui.ProgressBar.ProgressValueEventArgs e)
+    {
+        if (Justus.Progress >= 100) Justus.ProgressFill = Color.FromHex("#6DBC6D");
+        else Justus.ProgressFill = Color.FromHex("#2c99c4");
+    }
+
+    private void Tobias_Completed(object sender, EventArgs e)
+    {
+        Tobias.Unfocus();
     }
 }
 

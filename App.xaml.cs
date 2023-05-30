@@ -1,27 +1,33 @@
-﻿namespace WaterTrackerMAUI;
+﻿namespace WaterTrackerMaui2;
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
+    public App()
+    {
+        InitializeComponent();
 
-		MainPage = new AppShell();
-	}
+        MainPage = new AppShell();
+    }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-		var window = base.CreateWindow(activationState);
-		MainPage mainPage = new MainPage();
+        var window = base.CreateWindow(activationState);
+        MainPage mainPage = new MainPage();
 
-		window.Height = 800;
-		window.Width = 400;
+        window.Height = 800;
+        window.Width = 400;
 
-		window.Destroying += (s, e) =>
-		{
-			mainPage.OnDestroying();
-		};
+        window.MaximumHeight = window.Height;
+        window.MaximumWidth = window.Width;
 
-		return window;
+        window.MinimumHeight = window.Height;
+        window.MinimumWidth = window.Width;
+
+        window.Destroying += (s, e) =>
+        {
+            mainPage.OnDestroying();
+        };
+
+        return window;
     }
 }

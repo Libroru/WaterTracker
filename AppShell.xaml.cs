@@ -1,4 +1,4 @@
-﻿namespace WaterTrackerMAUI;
+﻿namespace WaterTrackerMaui2;
 
 public partial class AppShell : Shell
 {

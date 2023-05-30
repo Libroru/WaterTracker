@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace WaterTrackerMAUI;
+namespace WaterTrackerMaui2;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
